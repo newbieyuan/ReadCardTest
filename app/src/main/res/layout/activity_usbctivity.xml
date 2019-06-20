@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.yy.usbReadData.Usbctivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMsg"
+        app:layout_constraintTop_toBottomOf="@+id/btnClose"
+        />
+    <Button
+        android:id="@+id/btnOpen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/open_data_monitor"
+        android:onClick="openDevice"
+        />
+    <Button
+        android:id="@+id/btnClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/close_data_monitor"
+        android:onClick="closeDevice"
+        app:layout_constraintTop_toBottomOf="@+id/btnOpen"
+        />
+
+</android.support.constraint.ConstraintLayout>

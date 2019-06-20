@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SerialPortTest</string>
+    <string name="open_port">打开串口</string>
+    <string name="close_port">关闭串口</string>
+    <string name="clear_Screen">清屏</string>
+    <string name="error_configuration">请先配置串口参数.</string>
+    <string name="hint_place_open_port">请先打开串口.</string>
+    <string name="error_security">没有串口读写权限.</string>
+    <string name="error_unknown">一个未知的原因串口不能打开.</string>
+    <string name="hint_open_port_success">打开串口成功.</string>
+    <string name="hint_open_port_fail">打开串口失败.</string>
+    <string name="hint_close_port">关闭串口.</string>
+    <string name="open_data_monitor">打开数据监听</string>
+    <string name="close_data_monitor">关闭数据监听
+    <string name="red_twinkle">红灯闪烁3次</string>
+    <string name="green_twinkle">绿灯闪烁3次</string>
+    <string name="read_agreement">读通信协议</string>
+    <string name="voice_buzzer">蜂鸣器响一声</string>
+    <string name="led_open">呼吸灯开</string>
+    <string name="led_close">呼吸灯关</string>
+    <string name="read_device">读取设备类型和编号</string>
+    <string name="communication_03">修改通信协议03</string>
+    <string name="NFC_0">NFC读卡次数设置成0</string></string>
+</resources>
