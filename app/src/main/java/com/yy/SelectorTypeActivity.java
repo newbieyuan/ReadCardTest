@@ -18,7 +18,8 @@ public class SelectorTypeActivity extends AppCompatActivity {
     }
 
     public void serialPortReadCard(View view) {
-        startActivity(new Intent(this, MainActivity.class));
+        Intent intent=new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     public void usbReadCard(View view) {
