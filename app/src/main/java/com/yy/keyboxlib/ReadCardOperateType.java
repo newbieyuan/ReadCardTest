@@ -121,6 +121,12 @@ public class ReadCardOperateType {
      * 写ROM信息
      */
     public static final String writeROM="8E";
+
+    /**
+     * 写ROM信息---设置Led灯时间
+     */
+    public static final String writeROMSetLedTime="05";
+
     /**
      * 指纹读卡器动作
      */
@@ -137,9 +143,30 @@ public class ReadCardOperateType {
      */
     public static final String cardOperationRedLightTwinkle="05";
     /**
+     * 指纹读卡器动作---红灯开
+     */
+    public static final String cardOperationRedOpen="01";
+
+    /**
+     * 指纹读卡器动作---红灯关
+     */
+    public static final String cardOperationRedClose="02";
+
+    /**
      * 指纹读卡器动作---绿灯闪烁
      */
     public static final String cardOperationGreenLightTwinkle="06";
+
+    /**
+     * 指纹读卡器动作---绿灯开
+     */
+    public static final String cardOperationGreenOpen="03";
+
+    /**
+     * 指纹读卡器动作---绿灯关
+     */
+    public static final String cardOperationGreenClose="04";
+
     /**
      * 指纹读卡器动作---蜂鸣器响
      */
@@ -160,6 +187,11 @@ public class ReadCardOperateType {
      * 自动读卡卡号
      */
     public static final String autoReadCard="0D";
+
+    /**
+     * 复位指纹模块
+     */
+    public static final String resestFinger="09";
 
 
 

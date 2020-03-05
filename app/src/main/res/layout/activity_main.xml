@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.yy.serialporttest.MainActivity">
-
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,8 +11,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="串口号："
+            android:text="@string/serial_port"
             android:textSize="18dp"
+            android:maxWidth="60dp"
+            android:gravity="center"
             android:textStyle="bold"
             android:layout_gravity="center_vertical"
             />
@@ -28,9 +28,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="波特率："
+            android:text="@string/baud_rate"
             android:textSize="18dp"
             android:textStyle="bold"
+            android:gravity="center"
+            android:maxWidth="60dp"
             android:layout_gravity="center_vertical"
             />
         <Button
@@ -44,9 +46,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="编码格式："
+            android:text="@string/encoding"
             android:textSize="18dp"
+            android:maxWidth="90dp"
             android:textStyle="bold"
+            android:gravity="center"
             android:layout_gravity="center_vertical"
             />
         <Button
@@ -81,89 +85,163 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
+        android:orientation="vertical"
+        >
+        <EditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_red_twinkle"
+            android:id="@+id/et_twinkle_num"
             android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20sp"
             android:layout_gravity="center_vertical"
-            android:text="@string/red_twinkle"
+            android:hint="闪烁次数"
             />
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_green_twinkle"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/green_twinkle"
-            />
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_red_twinkle"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/red_twinkle"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_red_open"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/red_open"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_red_close"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/red_close"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_voice_buzzer"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/voice_buzzer"
-            />
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_green_twinkle"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/green_twinkle"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_green_open"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/green_open"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_green_close"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/green_close"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_communication_03"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/communication_03"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_voice_buzzer"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/voice_buzzer"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_communication_03"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/communication_03"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_led_set_time"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/led_set_time"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_led_open"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/led_open"
-            />
-        <Button
-            android:layout_width="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_led_open"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/led_open"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_led_close"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/led_close"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_read_device"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/read_device"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_read_agreement"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/read_agreement"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/btn_led_close"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/led_close"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_read_device"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/read_device"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_read_agreement"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/read_agreement"
-            />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btn_NFC_0"
-            android:layout_weight="1"
-            android:layout_gravity="center_vertical"
-            android:text="@string/NFC_0"
-            />
+            android:orientation="horizontal">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_NFC_0"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/NFC_0"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_resest_finger"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:text="@string/resest_finger"
+                />
+        </LinearLayout>
     </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"

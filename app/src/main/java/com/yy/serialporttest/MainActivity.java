@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button btnPort, btnBaudRate,btnCoding;
+    private EditText et_twinkle_num;
     private Context mContext;
     private AlertDialog dialog;
     private List<String> serialPortPathList;
@@ -44,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private InputStream mInputStream;
     private ReadThread mReadThread;
     private Button btnClear, btnRedTwinkle, btnGreenTwinkle, btnReadAgreement, btnVoiceBuzzer,
-            btnLedOpen, btnLedClose, btnReadDevice, btnCommunication03, btnNfc0;
+            btnLedOpen, btnLedClose, btnReadDevice, btnCommunication03, btnNfc0,btn_resest_finger,
+            btnRedOpen, btnGreenOpen,btnRedClose, btnGreenClose, btnLedSetTime;
 
     private static final String HEX = "HEX";
     private static final String ASCII = "ASCII";
@@ -124,7 +127,46 @@ public class MainActivity extends AppCompatActivity {
         btnLedClose = findViewById(R.id.btn_led_close);
         btnReadDevice = findViewById(R.id.btn_read_device);
         btnCommunication03 = findViewById(R.id.btn_communication_03);
+        btn_resest_finger = findViewById(R.id.btn_resest_finger);
         btnNfc0 = findViewById(R.id.btn_NFC_0);
+        et_twinkle_num = findViewById(R.id.et_twinkle_num);
+        btnRedClose = findViewById(R.id.btn_red_close);
+        btnGreenClose = findViewById(R.id.btn_green_close);
+        btnRedOpen = findViewById(R.id.btn_red_open);
+        btnGreenOpen = findViewById(R.id.btn_green_open);
+        btnLedSetTime = findViewById(R.id.btn_led_set_time);
+
+        btnLedSetTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLedTime();
+            }
+        });
+        btnRedOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redOpen();
+            }
+        });
+        btnGreenOpen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                greenOpen();
+            }
+        });
+
+        btnRedClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                redClose();
+            }
+        });
+        btnGreenClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                greenClose();
+            }
+        });
 
         btnPort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +242,12 @@ public class MainActivity extends AppCompatActivity {
                 setNFC0();
             }
         });
+        btn_resest_finger.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resestFinger();
+            }
+        });
 
         btnOpenPort.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,8 +277,6 @@ public class MainActivity extends AppCompatActivity {
         tvReceivedData = findViewById(R.id.tvReceivedData);
     }
 
-
-
     /**
      * 打开串口
      */
@@ -247,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
             isOpenSerialPort = true;
             btnOpenPort.setText(getString(R.string.close_port));
             mInputStream = mSerialPort.getInputStream();
-                    /* Create a receiving thread */
+            /* Create a receiving thread */
             isRun =true;
             mReadThread = new ReadThread();
             mReadThread.start();
@@ -346,23 +392,17 @@ public class MainActivity extends AppCompatActivity {
         dialog = builder.create();
         dialog.show();
     }
-
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     /**
      * 写入提示信息
      * Write prompt information
      */
     private void writePromptMessage(String cardString) {
-        Log.e("读到的数据==",cardString);
         sb.append(cardString + "\t\t\t\t\t\t\t\t");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         String date = format.format(new Date());
         sb.append(date + "\t\n");
         String dataString = sb.toString();
-//        if (dataString.length() > 700) {
-//            dataString = dataString.substring(30, dataString.length());
-//            sb.setLength(0);
-//            sb.append(dataString);
-//        }
         tvReceivedData.setText(dataString);
     }
 
@@ -393,6 +433,7 @@ public class MainActivity extends AppCompatActivity {
                     if (mInputStream.available() > 0) {
                         size = mInputStream.read(buffer);
                         if (size > 0) {
+//                            Log.e("接收到的原始数据大小--", size+"");
                             byte[] date = new byte[size];
                             System.arraycopy(buffer, 0, date, 0, size);
                             onDataReceived(date, size);
@@ -410,6 +451,7 @@ public class MainActivity extends AppCompatActivity {
     private void onDataReceived(byte[] buffer, int size) {
         String dataFirst = String.format("%02X", buffer[0]).trim();
         String dataLast = String.format("%02X", buffer[buffer.length - 1]).trim();
+        Log.e("接收到的原始数据--", byte2hex(buffer));
         if ("55".equals(dataFirst) && "AA".equals(dataLast) && buffer.length > 10) {
             //加校验的卡号，校验
             checkCard(buffer);
@@ -427,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    writePromptMessage(msg);
+                    writePromptMessage("222======"+msg);
                 }
             });
         }
@@ -447,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean greenLight = false;
     private void checkCard(final byte[] buffer) {
         try {
-            Log.e("接收到的--checkCard", byte2hex(buffer));
+//            Log.e("接收到的--checkCard", byte2hex(buffer));
             int returnCrc = buffer[buffer.length - 2] & 0xff;
             byte[] data = new byte[buffer.length - 3];//除去数据头、数据尾、校验
             System.arraycopy(buffer, 1, data, 0, data.length);
@@ -471,37 +513,39 @@ public class MainActivity extends AppCompatActivity {
                                 writePromptMessage(byte2hex(buffer));
                             }
                         });
-                        ledClose();
+//                        ledClose();
                         break;
                     case ReadCardOperateType.cardOperation://指纹读卡器动作
                         Log.e("接收到的--指纹读卡器动作",padLeft(Integer.toHexString(buffer[9] & 0xFF),2));
-                        switch (padLeft(Integer.toHexString(buffer[9] & 0xFF),2)){
-                            case ReadCardOperateType.cardOperationLedLight://LED灯开关
-                                if (isClose){
-                                    isClose=false;
-                                    if (greenLight){
-                                        greenLightTwinkle();
-                                        greenLight = false;
-                                    }else {
-                                        redLightTwinkle();
-
-                                        greenLight = true;
-                                    }
-                                }else {
-                                    isClose=true;
-                                }
-                                break;
-                            case ReadCardOperateType.cardOperationRedLightTwinkle://红灯闪烁
-                                ledOpen();
-                                break;
-                            case ReadCardOperateType.cardOperationGreenLightTwinkle://绿灯闪烁
-                                ledOpen();
-                                break;
-                        }
+//                        switch (padLeft(Integer.toHexString(buffer[9] & 0xFF),2)){
+//                            case ReadCardOperateType.cardOperationLedLight://LED灯开关
+//                                if (isClose){
+//                                    isClose=false;
+//                                    if (greenLight){
+//                                        greenLightTwinkle();
+//                                        greenLight = false;
+//                                    }else {
+//                                        redLightTwinkle();
+//                                        greenLight = true;
+//                                    }
+//                                }else {
+//                                    isClose=true;
+//                                }
+//                                break;
+//                            case ReadCardOperateType.cardOperationRedLightTwinkle://红灯闪烁
+//                                ledOpen();
+//                                break;
+//                            case ReadCardOperateType.cardOperationGreenLightTwinkle://绿灯闪烁
+//                                ledOpen();
+//                                break;
+//                            case ReadCardOperateType.resestFinger://
+//                                Log.e("resestFinger==","复位返回");
+//                                break;
+//                        }
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                writePromptMessage(byte2hex(buffer));
+                                writePromptMessage("指纹读卡器动作=="+byte2hex(buffer));
                             }
                         });
                         break;
@@ -513,8 +557,8 @@ public class MainActivity extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                writePromptMessage(cardString);
-                                lighting(false);
+                                writePromptMessage("自动读卡卡号"+cardString);
+//                                lighting(false);
                             }
                         });
                         break;
@@ -585,19 +629,51 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * 红灯关
+     */
+    private void redClose() {
+        boolean result=sendOperation(deviceType,deviceNo,
+                ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationRedClose);
+    }
+    /**
+     * 红灯开
+     */
+    private void redOpen() {
+        boolean result=sendOperation(deviceType,deviceNo,
+                ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationRedOpen);
+    }
+    /**
+     *
+     * 绿灯开
+     */
+    private void greenOpen() {
+        boolean result=sendOperation(deviceType,deviceNo,
+                ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationGreenOpen);
+    }
+    /**
+     *
+     * 绿灯关
+     */
+    private void greenClose() {
+        boolean result=sendOperation(deviceType,deviceNo,
+                ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationGreenClose);
+    }
+
+    /**
      * 红灯闪烁3次
      */
     private void redLightTwinkle(){
         Log.e("命令--","红灯闪烁3次");
+        String num = et_twinkle_num.getText().toString().trim();
+        if (TextUtils.isEmpty(num)){
+            return;
+        }
+        if (num.length()<2){
+            num = "0"+num;
+        }
 //        isRead=false;
         boolean result=sendOperation(deviceType,deviceNo,
-                ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationRedLightTwinkle+"02");
-//        if (result){
-//            writePromptMessage("红灯闪烁成功");
-//        }else {
-//            writePromptMessage("红灯闪烁失败");
-//        }
-//        isRead=true;
+                ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationRedLightTwinkle + num);
     }
     /**
      * 绿灯闪烁3次
@@ -605,14 +681,15 @@ public class MainActivity extends AppCompatActivity {
     private void greenLightTwinkle(){
         Log.e("命令--","绿灯闪烁3次");
 //        isRead=false;
+        String num = et_twinkle_num.getText().toString().trim();
+        if (TextUtils.isEmpty(num)){
+            return;
+        }
+        if (num.length()<2){
+            num = "0"+num;
+        }
         boolean result=sendOperation(deviceType,deviceNo
-                ,ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationGreenLightTwinkle+"02");
-//        if (result){
-//            writePromptMessage("绿灯闪烁成功");
-//        }else {
-//            writePromptMessage("绿灯闪烁失败");
-//        }
-//        isRead=true;
+                ,ReadCardOperateType.cardOperation,ReadCardOperateType.cardOperationGreenLightTwinkle + num);
     }
 
     /**
@@ -645,6 +722,29 @@ public class MainActivity extends AppCompatActivity {
 //        }
 //        isRead=true;
     }
+
+    /**
+     *
+     * 设置Led等时间
+     */
+    private void setLedTime() {
+        boolean result=sendOperation(deviceType,deviceNo,
+                ReadCardOperateType.writeROM,ReadCardOperateType.writeROMSetLedTime+"6400C800");
+    }
+
+    /**
+     * 复位指纹模块
+     */
+    private void resestFinger() {
+        boolean result=sendOperation(deviceType,deviceNo,
+                ReadCardOperateType.cardOperation,ReadCardOperateType.resestFinger+"0100");
+        if (result){
+//            writePromptMessage("复位指纹模块成功");
+        }else {
+            writePromptMessage("复位指纹模块失败");
+        }
+    }
+
 
     /**
      * LED关闭

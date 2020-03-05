@@ -11,10 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
         <activity android:name="com.yy.usbReadData.Usbctivity">
         </activity>
-        <activity android:name="com.yy.SelectorTypeActivity">
+        <activity android:name="com.yy.serialporttest.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
